@@ -1,0 +1,60 @@
+<!-- Page Title Section -->
+<div class="hero-unit">
+  <h2>RegPrecise WebService</h2>
+  <p>Use this page to make calls to the RegPrecise service</p>
+</div>
+
+<!--Main Content Section-->
+<div class="container-fluid">
+
+  <div class="row-fluid">
+
+<!--    Form to Control Requests-->
+    <div class="span2">
+
+
+      <% actions = {
+        :regulon => "Get Regulon",
+        :regulog => "Get Regulog",
+        :getall => "All Data",
+        :genes => "Regulated Genes",
+        :sites => "Binding Sites",
+      } %>
+
+      <%= form_tag("/regprecise/regprecise", :method => "post") do %>
+
+      <fieldset>
+        <legend>Request Details</legend>
+
+        <%= label_tag :regulonID, "RegulonID" %>
+        <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID" %>
+        <%= label_tag :regulogID, "RegulogID" %>
+        <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID" %>
+        <% end %>
+
+
+        <% actions.each do |key, name| %>
+        <button class="btn" id=<%= "#{key}-btn" %>><%= name %></button>
+        <% end %>
+
+
+      </fieldset>
+
+    </div>
+
+<!--    Area to Display the Results-->
+    <div class="span9 offset1">
+
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="chart" data-toggle="tab">Chart</a></li>
+          <li><a href="regulon" data-toggle="tab">Regulon</a></li>
+          <li><a href="genes" data-toggle="tab">Genes</a></li>
+          <li><a href="sites" data-toggle="tab">Sites</a></li>
+          <li><a href="regulog" data-toggle="tab">Regulog</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
