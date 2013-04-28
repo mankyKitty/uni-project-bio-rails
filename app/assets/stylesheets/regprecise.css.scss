@@ -3,3 +3,214 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 @import "bootstrap";
 @import "bootstrap-responsive";
+
+.hero-unit {
+  padding: 35px;
+  line-height: 1px;
+}
+
+/*
+
+Color Selections
+
+#007b43 Green
+#E6B422 Gold
+#E2041B Red
+#302833 Black
+#e7e7eb Gray
+#895b8a Purple
+
+*/
+body {
+    font-family: Sans-serif;
+    font-size: 14px;
+}
+
+.node circle {
+    fill: #ffffff;
+}
+
+.node:hover circle {
+    stroke: #302833;
+    stroke-width: 2px;
+}
+
+.node:hover text {
+    font-weight: bold;
+}
+
+.link{
+    stroke: #302833;
+    stroke-width: 2px;
+}
+
+.genomeLabel {
+    font-style: italic;
+}
+
+div.wheel{
+    float:left;
+}
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    border-top:thick double #ffffff;
+    border-bottom:thick double #ffffff;
+    padding: 5px;
+    font-family: Sans-serif;
+    font-size: 9pt;
+    color: #ffffff;
+    background: #302833;
+    display: inline-block;
+    pointer-events: none;
+}
+
+div#wrapper {
+    top: 50px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+
+div.fixed{
+    position:fixed;
+    background-color: #302833;
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+div#header input, div#header select, div#left select, div#right select{
+    margin: 4px;
+    padding: 5px;
+    font-size: 14px;
+    font-family: Sans-serif;
+    width: 130px;
+    border: thin solid #ffffff;
+    color: #302833;
+    background-color: #ffffff;
+}
+
+div#header {
+    position:fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    z-index: 100;
+    min-width: 3000px;
+    text-align: left;
+    font-family: Sans-serif;
+    font-size: large;
+    font-weight: bold;
+    display: inline-block;
+}
+
+div#menu {
+  position:relative;
+  top: 10px;
+  left: 0px;
+  width: 15%;
+  z-index: 100;
+}
+
+div#left {
+    top: 50px;
+    left: 50%;
+    z-index: 100;
+    text-align: left;
+}
+
+div#right {
+    top: 50px;
+    right: 50%;
+    z-index: 100;
+    text-align: right;
+}
+
+div#center {
+    top: 300px;
+    left: 50%;
+    z-index: 100;
+    margin-top: -200px;
+    width: 600px;
+    margin-left: -300px;
+}
+
+div#menu a {
+    background-color: #302833;
+    text-align: center;
+    border: thin solid #ffffff;
+    margin: 4px;
+    padding: 5px;
+    font-family: Sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    display: inline-block;
+    width: 100px;
+}
+
+div#center h3 {
+    font-family: Sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+}
+
+div#center p {
+    font-family: Sans-serif;
+    font-size: 16px;
+    padding-left: 10px;
+}
+
+/* TODO: temporary, need to fix */
+div#userData {
+    margin-top: 40px;
+}
+
+div#wheel1, div#wheel2 {
+    float: left;
+}
+
+div#operationResult {
+    float: left;
+    clear: both;
+}
+
+div#sideBySide {
+    margin: auto;
+    text-align: center;
+    width: 1200px;
+}
+
+.svg {
+    display: block;
+    margin: auto;
+}
+
+div#operationResult p {
+    font-family: Sans-serif;
+    font-size: 18px;
+}
+
+#userData #progress_bar {
+    margin: 10px 0;
+    padding: 3px;
+    border: 1px solid #000;
+    font-size: 14px;
+    clear: both;
+    opacity: 0;
+    -moz-transition: opacity 1s linear;
+    -o-transition: opacity 1s linear;
+    -webkit-transition: opacity 1s linear;
+}
+
+#userData #progress_bar .loading {
+    opacity: 1.0;
+}
+
+#userData #progress_bar .percent {
+    background-color: #99ccff;
+    height: auto;
+    width: 0;
+}

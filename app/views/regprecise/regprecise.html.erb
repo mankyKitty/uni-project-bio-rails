@@ -1,45 +1,41 @@
 <!-- Page Title Section -->
 <div class="hero-unit">
-  <h2>RegPrecise WebService</h2>
+  <h3>RegPrecise WebService</h3>
   <p>Use this page to make calls to the RegPrecise service</p>
 </div>
 
 <!--Main Content Section-->
 <div class="container-fluid">
 
-  <div class="row-fluid">
+  <div class="row-fluid" ng-controller="RegPreciseCtrl">
 
-<!--    Form to Control Requests-->
+    <!--    Form to Control Requests-->
     <div class="span2">
-
 
       <% actions = {
         :regulon => "Get Regulon",
         :regulog => "Get Regulog",
-        :getall => "All Data",
         :genes => "Regulated Genes",
         :sites => "Binding Sites",
+        :getall => "All Data",
       } %>
 
-      <%= form_tag("/regprecise/regprecise", :method => "post") do %>
+      <form>
+        <%= csrf_meta_tags %>
+        <fieldset>
+          <legend>Request Details</legend>
 
-      <fieldset>
-        <legend>Request Details</legend>
+          <%= label_tag :regulonID, "RegulonID" %>
+          <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID", "ng-model" => "regpreciseRequest.regulonID" %>
+          <%= label_tag :regulogID, "RegulogID" %>
+          <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID", "ng-model" => "regpreciseRequest.regulogID" %>
 
-        <%= label_tag :regulonID, "RegulonID" %>
-        <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID" %>
-        <%= label_tag :regulogID, "RegulogID" %>
-        <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID" %>
-        <% end %>
+          <% actions.each do |key, name| %>
+          <button ng-click=<%= "#{key}Click($e)" %> class="btn" id=<%= "#{key}-btn" %>><%= name %></button>
+          <% end %>
 
-
-        <% actions.each do |key, name| %>
-        <button class="btn" id=<%= "#{key}-btn" %>><%= name %></button>
-        <% end %>
-
-
-      </fieldset>
-
+        </fieldset>
+      </form>
     </div>
 
 <!--    Area to Display the Results-->
@@ -47,14 +43,54 @@
 
       <div class="tabbable">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="chart" data-toggle="tab">Chart</a></li>
-          <li><a href="regulon" data-toggle="tab">Regulon</a></li>
-          <li><a href="genes" data-toggle="tab">Genes</a></li>
-          <li><a href="sites" data-toggle="tab">Sites</a></li>
-          <li><a href="regulog" data-toggle="tab">Regulog</a></li>
+          <li class="active"><a href="#chart" data-toggle="tab">Chart</a></li>
+          <li><a href="#regulon" data-toggle="tab">Regulon</a></li>
+          <li><a href="#alldata" data-toggle="tab">All Data</a></li>
+          <li><a href="#genes" data-toggle="tab">Genes</a></li>
+          <li><a href="#sites" data-toggle="tab">Sites</a></li>
         </ul>
-      </div>
 
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="chart">
+            <!-- Space Reserved For Chart of Awesome -->
+          </div>
+
+          <div class="tab-pane" id="regulon">
+
+              <!-- This is the HTML for a single regulon -->
+              <li ng-repeat="(key, value) in regpreciseRequestSingleRegulon">
+                <span><p>{{key}} : {{value}}</p></span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane" id="alldata">
+
+              <!-- This is the HTML for the response to a 'Get All' request -->
+              <li ng-repeat="regulon in regpreciseRequestAllRegulons">
+                <span>{{regulon.regulonId}} : {{regulon.genomeName}}</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane" id="genes">
+            <ul>
+              <li ng-repeat="gene in regpreciseRequestGeneByRegulon">
+                <p>{{gene}}</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tab-pane" id="sites">
+            <ul>
+              <li ng-repeat="site in regpreciseRequestSiteByRegulon">
+                <p>{{site}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -11,7 +11,9 @@
 // GO AFTER THE REQUIRES BELOW.
 //
 //= require angular
+//= require angular-resource
 //= require jquery
 //= require bootstrap
 //= require d3
+//= require_tree ./angular
 //= require_tree .

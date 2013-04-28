@@ -1,7 +1,6 @@
 BioApp::Application.routes.draw do
-  get "regprecise/regprecise"
 
-  get "chatter/index"
+  post "chatter/index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

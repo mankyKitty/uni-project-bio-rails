@@ -8,4 +8,5 @@ class ApplicationController < ActionController::Base
   def intercept_html_requests
     render('regprecise/regprecise') if request.format == Mime::HTML
   end
+
 end
