@@ -69,6 +69,6 @@
   $scope.sitesClick = (e)->
     $scope.regpreciseRequestQuery.type = "sites_by_regulon"
     regpreciseRequest().then((d)->
-      if d.status is 200 then $scope.regpreciseRequestSiteByRegulon = d.data)
+      if d.status is 200 then $scope.regpreciseRequestSiteByRegulon = d.data.site)
 ]
 

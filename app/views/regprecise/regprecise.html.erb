@@ -69,7 +69,7 @@
 
               <!-- This is the HTML for the response to a 'Get All' request -->
               <li ng-repeat="regulon in regpreciseRequestAllRegulons">
-                <span>{{regulon.regulonId}} : {{regulon.genomeName}}</span>
+                <span>{{regulon.genomeId}} : {{regulon.name}}</span>
               </li>
             </ul>
           </div>
@@ -85,7 +85,12 @@
           <div class="tab-pane" id="sites">
             <ul>
               <li ng-repeat="site in regpreciseRequestSiteByRegulon">
-                <p>{{site}}</p>
+                geneLocusTag: {{site.geneLocusTag}}<br>
+                geneVIMSSId: {{site.geneVIMSSId}}<br>
+                position: {{site.position}}<br>
+                regulonId: {{site.regulonId}}<br>
+                score: {{site.score}}<br>
+                sequence: {{site.sequence}}<br>
               </li>
             </ul>
           </div>
