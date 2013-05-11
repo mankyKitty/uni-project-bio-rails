@@ -65,6 +65,7 @@
 
           <div class="tab-pane" id="regulon">
 
+            <!-- Begin Regulon Accordion Section -->
             <div id="regulon-accordion" class="accordion">
 
               <dl class="dl-horizontal">
@@ -72,9 +73,10 @@
                 <div class="accordion-group" 
                      ng-repeat="(index, regulon) in regpreciseRequestRegulons"
                      >
-
+                  <!-- Begin Individual Regulon Section -->
                   <div class="accordion-heading">
 
+                    <!-- Create Heading for Regulon -->
                       <a href="#regulon-{{index}}" 
                          class="accordion-toggle" 
                          data-toggle="collapse" 
@@ -85,54 +87,34 @@
                       </a>
                       
                   </div>
-
+                  <!-- Show data in the regulon object -->
                   <div id="regulon-{{index}}" class="accordion-body collapse">
                     <div class="accordion-inner">
-                      <div ng-repeat="(key, value) in regulon">
-                        
+                      <div ng-repeat="(key, value) in regulon">                        
                         <dt>{{key}}</dt>
-                        <dd>{{value}}</dd>
-                        
-                      </div>
-                      
+                        <dd>{{value}}</dd>              
+                      </div>                      
                     </div>
-                  </div>                  
-                </div>
-                
-              </dl>
-              
-            </div>
+                  </div>
+
+                </div>                
+              </dl>              
+            </div> <!-- End Regulon Accordion Section -->
+
           </div>
 
           <div class="tab-pane" id="alldata">
-
-              <!-- This is the HTML for the response to a 'Get All' request -->
-              <li ng-repeat="regulon in regpreciseRequestAllRegulons">
-                <span>{{regulon.genomeId}} : {{regulon.name}}</span>
-              </li>
-            </ul>
+            <%= render :partial => "alldata-table" %>
           </div>
 
           <div class="tab-pane" id="genes">
-            <ul>
-              <li ng-repeat="gene in regpreciseRequestGeneByRegulon">
-                <p>{{gene}}</p>
-              </li>
-            </ul>
+            <%= render :partial => "genes-table" %>
           </div>
 
           <div class="tab-pane" id="sites">
-            <ul>
-              <li ng-repeat="site in regpreciseRequestSiteByRegulon">
-                geneLocusTag: {{site.geneLocusTag}}<br>
-                geneVIMSSId: {{site.geneVIMSSId}}<br>
-                position: {{site.position}}<br>
-                regulonId: {{site.regulonId}}<br>
-                score: {{site.score}}<br>
-                sequence: {{site.sequence}}<br>
-              </li>
-            </ul>
+            <%= render :partial => "sites-table" %>
           </div>
+
         </div>
       </div>
     </div>

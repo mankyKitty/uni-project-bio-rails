@@ -1,0 +1,16 @@
+<table id="alldata-table" class="table table-hover table-condensed">
+  <thead>
+    <tr>
+      <th ng-repeat="column in regpreciseRequestAllRegulonsHeaders">
+        {{column}}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in regpreciseRequestAllRegulons">
+      <td ng-repeat="(key, element) in row">
+        {{element}}
+      </td>
+    </tr>
+  </tbody>
+</table>
