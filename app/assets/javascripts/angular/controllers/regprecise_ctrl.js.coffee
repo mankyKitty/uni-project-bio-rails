@@ -1,5 +1,5 @@
 @RegPreciseCtrl = @app.controller 'RegPreciseCtrl', ["$scope", "$http", ($scope, $http)->
-  $scope.regpreciseUrl = "/chatter/index.json"
+  $scope.regpreciseUrl = "/regprecise/index.json"
   # Results from single regulon ID query
   $scope.regulonID = []
 
@@ -17,8 +17,13 @@
     "type": "",
     "info" : $scope.regpreciseRequest
   }
+ 
+  $scope.regpreciseRequests = []
 
+  $scope.regulonListOfNames = []
+  
   regpreciseRequest = ->
+    $scope.loading = true
     # Create the request for the RegPrecise Service
     $http.post($scope.regpreciseUrl, {
         "data": $scope.regpreciseRequestQuery
@@ -26,22 +31,33 @@
       .success (data, status)->
         $scope.regpreciseRequestStatus = status
         $scope.regpreciseRequestResponse = data
+        $scope.loading = false
       .error (data, status)->
         $scope.regpreciseRequestResponse = data || "Request Failed!"
         $scope.regpreciseRequestStatus = status
+        $scope.loading = false
+
+  $scope.ww_chartClick = ->
+    $scope.regpreciseRequestQuery.type = "wagon_wheel_chart"
+    regpreciseRequest().then((d)->
+      if d.status is 200 then $scope.child_genes_for_chart = d.data.chart_data)
 
   $scope.regulogClick = (e)->
     $scope.regpreciseRequestQuery.type = "regulons_by_regulog"
     regpreciseRequest().then((d)->
-      if d.status is 200 then $scope.regpreciseRequestRegulons = d.data)
+      for regulon in d.data.regulon
+        $scope.regulonListOfNames.push regulon.genomeName
+        
+      if d.status is 200 then $scope.regpreciseRequestRegulons = d.data.regulon)
 
   $scope.regulonClick = (e)->
     $scope.regpreciseRequestQuery.type = "regulon_by_id"
     regpreciseRequest().then((d)->
       if d.status is 200
+        $scope.regulonListOfNames = []
         $scope.genome = d.data.genomeName
         $scope.TFname = d.data.regulatorName
-        $scope.regpreciseRequestSingleRegulon = d.data)
+        $scope.regpreciseRequestRegulons = [d.data])
 
   $scope.getallClick = (e)->
     $scope.regpreciseRequestQuery.type = "get_all"

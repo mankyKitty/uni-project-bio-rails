@@ -8,22 +8,29 @@
 <div class="container-fluid">
 
   <div class="row-fluid" ng-controller="RegPreciseCtrl">
-
+    
     <!--    Form to Control Requests-->
     <div class="span2">
-
+      
       <% actions = {
-        :regulon => "Get Regulon",
-        :regulog => "Get Regulog",
-        :genes => "Regulated Genes",
-        :sites => "Binding Sites",
-        :getall => "All Data",
+         :regulon => "Get Regulon",
+         :regulog => "Get Regulog",
+         :genes => "Regulated Genes",
+         :sites => "Binding Sites",
+         :getall => "Genome Stats"
       } %>
 
       <form>
         <%= csrf_meta_tags %>
         <fieldset>
-          <legend>Request Details</legend>
+
+          <legend class="label label-warning" ng-show="loading">
+            <h4>Processing...</h4>
+          </legend>
+
+          <legend class="label label-info" ng-show="!loading">
+            <h4>RegPrecise Request</h4>
+          </legend>
 
           <%= label_tag :regulonID, "RegulonID" %>
           <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID", "ng-model" => "regpreciseRequest.regulonID" %>
@@ -44,8 +51,8 @@
       <div class="tabbable">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#chart" data-toggle="tab">Chart</a></li>
-          <li><a href="#regulon" data-toggle="tab">Regulon</a></li>
-          <li><a href="#alldata" data-toggle="tab">All Data</a></li>
+          <li><a href="#regulon" data-toggle="tab">Regulon(s)</a></li>
+          <li><a href="#alldata" data-toggle="tab">Genome Stats!</a></li>
           <li><a href="#genes" data-toggle="tab">Genes</a></li>
           <li><a href="#sites" data-toggle="tab">Sites</a></li>
         </ul>
@@ -58,11 +65,43 @@
 
           <div class="tab-pane" id="regulon">
 
-              <!-- This is the HTML for a single regulon -->
-              <li ng-repeat="(key, value) in regpreciseRequestSingleRegulon">
-                <span><p>{{key}} : {{value}}</p></span>
-              </li>
-            </ul>
+            <div id="regulon-accordion" class="accordion">
+
+              <dl class="dl-horizontal">
+                
+                <div class="accordion-group" 
+                     ng-repeat="(index, regulon) in regpreciseRequestRegulons"
+                     >
+
+                  <div class="accordion-heading">
+
+                      <a href="#regulon-{{index}}" 
+                         class="accordion-toggle" 
+                         data-toggle="collapse" 
+                         data-parent="#regulon-accordion"
+                         >
+
+                        <h4 class="label label-info">{{regulon.genomeName}}</h4>
+                      </a>
+                      
+                  </div>
+
+                  <div id="regulon-{{index}}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <div ng-repeat="(key, value) in regulon">
+                        
+                        <dt>{{key}}</dt>
+                        <dd>{{value}}</dd>
+                        
+                      </div>
+                      
+                    </div>
+                  </div>                  
+                </div>
+                
+              </dl>
+              
+            </div>
           </div>
 
           <div class="tab-pane" id="alldata">
