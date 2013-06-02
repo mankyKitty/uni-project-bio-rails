@@ -29,7 +29,7 @@
             <h4>RegPrecise Request</h4>
           </legend>
 
-
+          <div class="query-form well well-small">
           <%= label_tag :regulonID, "RegulonID" %>
 
           <div class="controls controls-row">
@@ -43,6 +43,7 @@
             <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID", "ng-model" => "regpreciseRequest.regulogID", :class => "input-small span4" %>
             <%= button_tag "Get Regulog", :id => "regulog-btn", "ng-click" => "regulogClick()", :class => "btn span6" %>
           </div>
+        </div>
         </fieldset>
       </form>
 

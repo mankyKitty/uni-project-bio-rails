@@ -30,7 +30,7 @@ function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId, clearAll)
 
     // size differs
     if (fullSize) {
-        diameter = 700;
+        diameter = 630;
         size = [360, diameter / 2 - 160];
     } else {
         diameter = 500;
@@ -77,12 +77,15 @@ function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId, clearAll)
         .attr("class", "wheel")
         .attr("id", wheelData.Genome);
 
+    var svgTranslateX = (diameter + padding) / 2;
+    var svgTranslateY = !fullSize ? svgTranslateX : svgTranslateX - 100;
+
     // draw the svg
     var svg = div.append("svg")
         .attr("width", diameter + padding)
         .attr("height", diameter + padding)
         .append("g")
-        .attr("transform", "translate(" + (diameter + padding) / 2 + "," + (diameter + padding) / 2 + ")");
+        .attr("transform", "translate(" + svgTranslateX + "," + svgTranslateY + ")");
         //XYC .on("mousedown", repaint);
 
     // let d3js tree layout calculate the coordinates of all nodes and links.
