@@ -2,40 +2,11 @@ class RegpreciseController < ApplicationController
   respond_to :json
 
   def index
-
+    # Get our path arguments based on request type.
     path = get_path params[:data]
-
-    # Charts are a special case and we need to handle them separately.
-    if params[:data][:type] == 'wagon_wheel_chart'
-      # Get Regulon data
-      params[:data][:type] = "regulon_by_id"
-      regulon = request_data get_path params[:data]
-      # Get Gene data
-      params[:data][:type] = "genes_by_regulon"
-      genes = request_data get_path params[:data]
-      # Get Site data
-      params[:data][:type] = "sites_by_regulon"
-      sites = request_data get_path params[:data]
-      # Attach Site data to Gene based on locus tag
-      chart_data = []
-
-      wheel = {
-        "Genome" => regulon.genomeName,
-        "TF" => regulon.regulatorName,
-        "children" => []
-      }
-              
-      genes[:gene].each do |gene|
-        site = sites.select do |s|
-        end
-
-        wheel[:children].push << gene
-      end
-      # Return
-    else
-      @resp = request_data path
-    end
-
+    # Query the service.
+    @resp = request_data path
+    # Send our response as JSON to the client App.
     respond_to do |format|
       format.json { render json: @resp }
     end
@@ -49,34 +20,29 @@ class RegpreciseController < ApplicationController
     path = case req[:type]
       # Request a single regulon by its ID
       when "regulon_by_id" then "regulon?regulonId=#{regulonId}"
-
       # Request the Sites information for a specific Regulon
       when "sites_by_regulon" then "sites?regulonId=#{regulonId}"
-
       # Request the Gene data for a specific Regulon
       when "genes_by_regulon" then "genes?regulonId=#{regulonId}"
-
       # Request Regulons by their shared regulog ID
       when "regulons_by_regulog" then "regulons?regulogId=#{regulogId}"
-
       # Request all genome statistical data
       when "get_all" then "genomeStats"
-      end
+    end
 
     path
   end
 
   def request_data(args)
-
+    # Include the Package we need for uri requests.
     require 'open-uri'
-
+    # This is the base RegPrecise Services URL, all requests start here.
     regprecise_url = "http://regprecise.lbl.gov/Services/rest/#{args}"
-
-    logger.debug regprecise_url
-
+    # Ensure our URI is as the library expects and nothing creepy has snuck in.
     uri = URI.parse regprecise_url
+    # Open a connection and read the data
     uri.open
-
+    # Return our response to the front end application.
     response = uri.read
   end
 
