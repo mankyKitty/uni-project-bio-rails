@@ -1,0 +1,26 @@
+<div id="regulon-accordion" class="accordion"> <!-- Begin Regulon Accordion Section -->
+
+  <dl class="dl">
+
+    <div class="accordion-group" ng-repeat="(index, regulon) in regpreciseRequestRegulons">
+      <!-- Begin Individual Regulon Section -->
+      <div class="accordion-heading">
+
+        <!-- Create Heading for Regulon -->
+        <a href="#regulon-{{index}}" class="accordion-toggle" data-toggle="collapse" data-parent="#regulon-accordion">
+         <h4 class="label label-info">{{regulon.genomeName}}</h4>
+       </a>
+
+     </div>
+     <!-- Show data in the regulon object -->
+     <div id="regulon-{{index}}" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <div ng-repeat="(key, value) in regulon">
+          <dt>{{key}}</dt>
+          <dd>{{value}}</dd>
+        </div>
+      </div>
+    </div>
+  </div>
+  </dl>
+</div> <!-- End Regulon Accordion Section -->

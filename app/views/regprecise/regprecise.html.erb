@@ -5,19 +5,16 @@
 </div>
 
 <!--Main Content Section-->
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="RegPreciseCtrl">
 
-  <div class="row-fluid" ng-controller="RegPreciseCtrl">
-    
+  <div class="row-fluid">
+
     <!--    Form to Control Requests-->
-    <div class="span2">
-      
+    <div class="span3">
+
       <% actions = {
          :regulon => "Get Regulon",
          :regulog => "Get Regulog",
-         :genes => "Regulated Genes",
-         :sites => "Binding Sites",
-         :getall => "Genome Stats"
       } %>
 
       <form>
@@ -32,91 +29,47 @@
             <h4>RegPrecise Request</h4>
           </legend>
 
+
           <%= label_tag :regulonID, "RegulonID" %>
-          <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID", "ng-model" => "regpreciseRequest.regulonID" %>
+
+          <div class="controls controls-row">
+            <%= text_field_tag :regulonID, nil, :placeholder => "RegulonID", "ng-model" => "regpreciseRequest.regulonID", :class => "input-small span4" %>
+            <%= button_tag "Get Regulon", :id => "regulon-btn", "ng-click" => "queryRegPrecise('regulon_by_id', 'chartRegulon')", :class => "btn span6" %>
+          </div>
+
           <%= label_tag :regulogID, "RegulogID" %>
-          <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID", "ng-model" => "regpreciseRequest.regulogID" %>
 
-          <% actions.each do |key, name| %>
-          <button ng-click=<%= "#{key}Click($e)" %> class="btn" id=<%= "#{key}-btn" %>><%= name %></button>
-          <% end %>
-
+          <div class="controls controls-row">
+            <%= text_field_tag :regulogID, nil, :placeholder => "RegulogID", "ng-model" => "regpreciseRequest.regulogID", :class => "input-small span4" %>
+            <%= button_tag "Get Regulog", :id => "regulog-btn", "ng-click" => "regulogClick()", :class => "btn span6" %>
+          </div>
         </fieldset>
       </form>
+
+      <!-- Include Regulon Detail Section -->
+      <div class="regulon-detail" ng-show="regulonDataPresent">
+        <legend>Regulon Detail</legend>
+        <%= render :partial => "regulon_section" %>
+      </div>
     </div>
 
 <!--    Area to Display the Results-->
-    <div class="span9 offset1">
-
-      <div class="tabbable">
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#chart" data-toggle="tab">Chart</a></li>
-          <li><a href="#regulon" data-toggle="tab">Regulon(s)</a></li>
-          <li><a href="#alldata" data-toggle="tab">Genome Stats!</a></li>
-          <li><a href="#genes" data-toggle="tab">Genes</a></li>
-          <li><a href="#sites" data-toggle="tab">Sites</a></li>
-        </ul>
-
-        <div class="tab-content">
-
-          <div class="tab-pane active" id="chart">
-            <!-- Space Reserved For Chart of Awesome -->
-          </div>
-
-          <div class="tab-pane" id="regulon">
-
-            <!-- Begin Regulon Accordion Section -->
-            <div id="regulon-accordion" class="accordion">
-
-              <dl class="dl-horizontal">
-                
-                <div class="accordion-group" 
-                     ng-repeat="(index, regulon) in regpreciseRequestRegulons"
-                     >
-                  <!-- Begin Individual Regulon Section -->
-                  <div class="accordion-heading">
-
-                    <!-- Create Heading for Regulon -->
-                      <a href="#regulon-{{index}}" 
-                         class="accordion-toggle" 
-                         data-toggle="collapse" 
-                         data-parent="#regulon-accordion"
-                         >
-
-                        <h4 class="label label-info">{{regulon.genomeName}}</h4>
-                      </a>
-                      
-                  </div>
-                  <!-- Show data in the regulon object -->
-                  <div id="regulon-{{index}}" class="accordion-body collapse">
-                    <div class="accordion-inner">
-                      <div ng-repeat="(key, value) in regulon">                        
-                        <dt>{{key}}</dt>
-                        <dd>{{value}}</dd>              
-                      </div>                      
-                    </div>
-                  </div>
-
-                </div>                
-              </dl>              
-            </div> <!-- End Regulon Accordion Section -->
-
-          </div>
-
-          <div class="tab-pane" id="alldata">
-            <%= render :partial => "alldata-table" %>
-          </div>
-
-          <div class="tab-pane" id="genes">
-            <%= render :partial => "genes-table" %>
-          </div>
-
-          <div class="tab-pane" id="sites">
-            <%= render :partial => "sites-table" %>
-          </div>
-
-        </div>
+    <div class="span8 offset1">
+      <div class="tab-pane active chart-area" id="chart">
+        <!-- Space Reserved For Chart of Awesome -->
       </div>
-    </div>
-  </div>
-</div>
+    </div> <!-- End of Chart Area -->
+  </div> <!-- End of Row Area -->
+  <div class="row-fluid">
+    <div class="span4" ng-show="geneDataPresent">
+      <legend>Regulated Genes</legend>
+      <%= render :partial => "genes-table" %>
+    </div> <!-- End Genes Region -->
+
+    <div class="span4 offset2" ng-show="siteDataPresent">
+      <legend>Binding Sites</legend>
+      <%= render :partial => "sites-table" %>
+    </div> <!-- End Sites Region -->
+
+  </div> <!-- End Row -->
+</div> <!-- End of Container -->

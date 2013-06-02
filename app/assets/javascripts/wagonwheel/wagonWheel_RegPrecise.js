@@ -15,7 +15,13 @@ var TFname;			// workaround for RegPrecise JSON data
 * @param {bool} fullSize This is a bool value. Draw in full size if it is true.
 * @param {string} locationId This is the id of where the wagon wheel will be appended to.
 */
-function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId) {
+function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId, clearAll) {
+
+    // Before we do anything, if we've been told to we need to clear the workspace
+    if (clearAll) {
+      d3.select(locationId).selectAll(".wheel").remove();
+    }
+
     var diameter;
     var size;
     var padding = 0;
@@ -174,13 +180,19 @@ function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId) {
 function getTooltipInfo(gene) {
 	var items = [];
 	$.each(gene, function(key, val) {
-      if (key != "depth" && key != "parent" && key != "x" && key != "y") {
-	    items.push('<b>' + key + ': </b>' + val);
-      }
-	});
+    if (key == 'children') {
+      items.push('<b>Children:</b>' + val.map(tooltipChildElement).join(', '));
+    }
+    else if (key != "depth" && key != "parent" && key != "x" && key != "y") {
+      items.push('<b>' + key + ': </b>' + val);
+    }
+  });
 	return items.join('<br/>');
 }
 
+function tooltipChildElement(v, i, parent) {
+  return v.function;
+}
 
 /**
  * Work-around for RegPrecise JSON data.
