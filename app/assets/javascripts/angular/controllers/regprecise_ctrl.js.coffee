@@ -25,6 +25,7 @@
   $scope.regpreciseRequestSiteByRegulonHeaders = []
   $scope.regpreciseRequestGeneByRegulonHeaders = []
 
+  $scope.regpreciseRequestRegulons = []
   $scope.regpreciseSiteData = []
   $scope.regpreciseGeneData = []
 
@@ -47,6 +48,7 @@
         $scope.regpreciseRequestResponse = data || "Request Failed!"
         $scope.loading = false
 
+
   updateNGshowVars = ->
     $scope.regulonDataPresent = $scope.regpreciseRequestRegulons.length > 0
     $scope.geneDataPresent = $scope.regpreciseGeneData.length > 0
@@ -67,6 +69,7 @@
       when "regulon_by_id" then chartRegulon(data)
       when "genes_by_regulon" then genesByRegulon(data)
       when "sites_by_regulon" then sitesByRegulon(data)
+    updateNGshowVars()
 
   $scope.queryRegPrecise = (queryType)->
     $scope.regpreciseRequestQuery.type = queryType
@@ -78,22 +81,29 @@
     $scope.genome = d.data.genomeName
     $scope.TFname = d.data.regulatorName
     $scope.regpreciseRequestRegulons = [d.data]
-
-    # Trigger our gene data request
-    $scope.queryRegPrecise("genes_by_regulon")
     # Trigger our site data request
     $scope.queryRegPrecise("sites_by_regulon")
+    # Trigger our gene data request
+    $scope.queryRegPrecise("genes_by_regulon")
 
   genesByRegulon = (d)->
     $scope.regpreciseGeneData = d.data.gene
     setTableHeaders 'genes', $scope.regpreciseGeneData[0]
     $scope.regpreciseRequestGeneByRegulon = $scope.regpreciseGeneData
-    # Update our GUI to display the newly retrieved data
-    updateNGshowVars()
 
     $scope.child_genes_for_chart = []
 
     angular.copy($scope.regpreciseRequestGeneByRegulon, $scope.child_genes_for_chart)
+
+    # Update our gene data to include binding site information.
+    $scope.child_genes_for_chart.map((g)->
+      # We're only interested in matches based on locusTags
+      g.sites = $scope.regpreciseRequestSiteByRegulon.filter((e)->
+        e.geneLocusTag == g.locusTag
+      )
+      g.weight = g.sites.length
+      return g
+    )
 
     wData = {
       Genome: $scope.genome,
@@ -106,8 +116,6 @@
     $scope.regpreciseSiteData = d.data.site
     setTableHeaders 'sites', $scope.regpreciseSiteData[0]
     $scope.regpreciseRequestSiteByRegulon = $scope.regpreciseSiteData
-    # Update the GUI to show the new data
-    updateNGshowVars()
 
   $scope.regulogClick = ()->
     $scope.regpreciseRequestQuery.type = "regulons_by_regulog"
@@ -116,7 +124,8 @@
         for regulon in d.data.regulon
           $scope.regulonListOfNames.push regulon.genomeName
 
-        if requestOk(d) then $scope.regpreciseRequestRegulons = d.data.regulon)
+        if requestOk(d)
+          $scope.regpreciseRequestRegulons = d.data.regulon)
 
 ]
 

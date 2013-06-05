@@ -75,22 +75,6 @@ function getColour(gene) {
             }
         }
 
-/*        // find me that bioFunction
-        if (getLengthOfcolourArray() > 0) {
-            if (getcolourFromcolourArray(gene['function']) != undefined) {
-                return getcolourFromcolourArray(gene['function']);
-            } else {
-                return "#e7e7eb";
-            }
-        }*/
-
-/*        // keep reference TG gray
-        if (gene.parent.Genome == "reference") {
-            return "#e7e7eb";
-        } else {
-            return colourScale(gene['function']);
-        }*/
-
         // function can be very long, base colour on the first three words
         var bioFunction = gene['function'].split(/[\s,-]+/, 3).join(" ");
         return colourScale(bioFunction);

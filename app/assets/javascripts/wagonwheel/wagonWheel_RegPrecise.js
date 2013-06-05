@@ -104,7 +104,11 @@ function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId, clearAll)
          .attr("d", diagonal)
          .style("stroke", function (d) {
         	 return getColour(d.target);
-    	 })
+        })
+         .attr("stroke-width", function (d) {
+          // the thickness of the stroke corresponds to the number of binding sites found
+           return Math.min((d.target.weight * 2), 8);
+        })
          .attr("opacity", 0.5);
 
     // draw nodes
@@ -186,11 +190,18 @@ function getTooltipInfo(gene) {
     if (key == 'children') {
       items.push('<b>Children:</b>' + val.map(tooltipChildElement).join(', '));
     }
+    else if (key == 'sites') {
+      items.push('<b>Binding Sites:</b>' + val.map(tooltipBindingSites).join(', '));
+    }
     else if (key != "depth" && key != "parent" && key != "x" && key != "y") {
       items.push('<b>' + key + ': </b>' + val);
     }
   });
 	return items.join('<br/>');
+}
+
+function tooltipBindingSites(v) {
+  return v.sequence;
 }
 
 function tooltipChildElement(v, i, parent) {
@@ -240,14 +251,11 @@ function isTG(gene) {
 
 
 /**
-* Checks if the gene has an edge.
-* Needs to check against another RegPrecise webservices call (see getSites).
-* TODO: Will always return true for now
-*
-* @param gene This is a gene object.
-* @return {bool} This returns a bool value.
-*/
+ * Checks if the gene has an edge.
+ *
+ * @param gene This is a gene object.
+ * @return {bool} This returns a bool value.
+ */
 function hasEdge(gene) {
-    var edge = Math.random() >= 0.5;
-    return edge;
+  return gene.weight > 0;
 }
