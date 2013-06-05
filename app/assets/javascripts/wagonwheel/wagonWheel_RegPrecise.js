@@ -107,7 +107,7 @@ function drawAWagonWheelFromWheelData(wheelData, fullSize, locationId, clearAll)
         })
          .attr("stroke-width", function (d) {
           // the thickness of the stroke corresponds to the number of binding sites found
-           return Math.min((d.target.weight * 2), 8);
+           return Math.min((d.target.sites.length * 2), 8);
         })
          .attr("opacity", 0.5);
 
@@ -257,5 +257,5 @@ function isTG(gene) {
  * @return {bool} This returns a bool value.
  */
 function hasEdge(gene) {
-  return gene.weight > 0;
+  return gene.sites.length > 0;
 }

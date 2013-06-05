@@ -101,7 +101,6 @@
       g.sites = $scope.regpreciseRequestSiteByRegulon.filter((e)->
         e.geneLocusTag == g.locusTag
       )
-      g.weight = g.sites.length
       return g
     )
 
